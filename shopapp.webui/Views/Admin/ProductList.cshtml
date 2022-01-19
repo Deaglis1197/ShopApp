@@ -1,0 +1,54 @@
+@model ProductListViewModel
+
+
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>Admin Products</h1>
+        <hr>
+        <a href="/admin/products/create" class="btn btn-primary btn-sm mb-1">Add Product</a>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <td tyle="width:30px;">Id</td>
+                    <td style="width:100px;">Image</td>
+                    <td>Name</td>
+                    <td style="width:20px;">Price</td>
+                    <td style="width:20px;">Main Page</td>
+                    <td style="width:150px;"></td>
+                </tr>
+            </thead>
+            <tbody>
+                @if(Model.Products.Count()>0){
+                            @foreach (var item in Model.Products)
+                            {
+                            <tr>
+                                <td>@item.ProductID</td>
+                                <td ><img src="~/images/@item.ImageUrl" width="80"></td>
+                                <td>@item.Name</td>
+                                <td>@item.Price</td>
+                                <td>
+                                    @if(item.IsHome){
+                                        <i class="fas fa-check-circle"></i>
+                                    }else{
+                                        <i class="fas fa-times-circle"></i>
+                                    }
+                                    </td>
+                                <td>
+                                    <a href="/admin/products/@item.ProductID" class="btn btn-primary btn-sm mr-2">Edit</a>
+                                    <form action="/admin/deleteproduct" method="POST" style="display:inline;">
+                                    <input type="hidden" name="productId" value="@item.ProductID">
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                            }
+                }else{
+                    <div class="alert alert-warning">
+                        <h3>No Product</h3>
+                    </div>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

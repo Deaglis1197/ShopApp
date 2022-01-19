@@ -1,0 +1,107 @@
+@model OrderModel
+<h1>Checkout</h1>
+<hr>
+<div class="row">
+    <div class="col-md-8">
+        <h4 class="mb-3">Order Details</h4>
+        <form method="POST" asp-controller="Cart" asp-action="Checkout">
+            <input type="hidden" name="cartId" value="0">
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="@Model.FirstName" class="col-sm-2 col-form-label" >Name</label>
+                    <input asp-for="@Model.FirstName" name="firstname" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="@Model.LastName" class="col-sm-2 col-form-label" >Surname</label>
+                    <input asp-for="@Model.LastName" type="text" name="surname" class="form-control">
+                </div>
+            </div>
+            <div class="mb-3">
+                    <label asp-for="@Model.Address" class="col-sm-2 col-form-label" >Address</label>
+                    <textarea asp-for="@Model.LastName" name="address" class="form-control"></textarea>
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label asp-for="@Model.City" class="col-sm-2 col-form-label" >City</label>
+                    <input asp-for="@Model.City" type="text" name="city" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="@Model.Phone" class="col-sm-2 col-form-label" >Phone</label>
+                    <input asp-for="@Model.Phone" type="text" name="phone" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label asp-for="@Model.Email" for="" class="col-sm-2 col-form-label" >Email</label>
+                    <input asp-for="@Model.Email" type="text" name="email" class="form-control">
+                </div>
+            </div>
+            <div class="row mb-3">
+                <h1>Confirm Purchase</h1>
+                <div class="col-md-8">
+                    <div class="form-group owner">
+                        <label>Owner</label>
+                        <input type="text" class="form-control" asp-for="@Model.CardName">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group CVV">
+                        <label>CVC</label>
+                        <input type="text" class="form-control" asp-for="@Model.Cvc">
+                    </div>
+                </div>    
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-8">
+                    <div class="form-group owner">
+                        <label for="CardNumber">Cart Number</label>
+                        <input type="text" class="form-control" asp-for="@Model.CardNumber">
+                    </div>
+                </div>
+                <div class="col-md-4" >
+                    
+                        <label for="exprationdate">Expiration Date</label><br>
+                       <div style="display:inline-block">
+                        <select class="form-control" asp-for="@Model.ExpMonth"> 
+                            @for(int i=1;i<=12;i++){
+                                    <option value="@i">@i</option>
+                                }</select>
+                        </div>
+                        /
+                        <div style="display:inline-block">
+                        <select class="form-control" asp-for="@Model.ExpYear"> 
+                            @for(int i=0;i<7;i++){
+                                    <option value="@(i+21)" >@(i+21)</option>
+                                }
+                        </select>
+                        </div>
+                    
+                </div>    
+            </div>
+            
+            <hr class="mb-3">
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Submit</button>
+        </form>
+    </div>
+    <div class="col-md-4">
+        <h4 class="mb-3">
+            <span>Order Summary</span> 
+            </h4>
+            <ul class="list-group mb-3">
+                @foreach (var item in Model.CartModel.CartItems)
+                {
+                   <li class="list-group-item d-flex justify-content-between">
+                    <div>
+                        <h6>@item.Name</h6>
+                        @*<small class="text-muted">Desc</small>*@
+                    </div>
+                    <span class="text-muted">@item.Price.ToString("c")</span>
+                </li> 
+                }
+                
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>Total</span>
+                    <strong>@Model.CartModel.TotalPrice().ToString("c")</strong>
+                </li>
+            </ul>
+        
+    </div>
+</div>
